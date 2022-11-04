@@ -30,10 +30,11 @@ class TestStatistics(unittest.TestCase):
 
     def test_teamworks(self):
         team1 = self.statistics.team("PIT")
+        team2 = self.statistics.team("EDM")
         for player in team1:
             teamname = player.team
-
         self.assertEqual(teamname, "PIT")
+        self.assertEqual(len(team2),3)
 
     def test_top_works(self):
         top2 = self.statistics.top(2)
