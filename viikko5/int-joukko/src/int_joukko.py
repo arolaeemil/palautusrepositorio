@@ -23,13 +23,13 @@ class IntJoukko:
         self.alkioiden_lkm = 0
 
     def kuuluu(self, n):
-        on = 0
+        vastaavat_alkiot = 0
 
         for i in range(0, self.alkioiden_lkm):
             if n == self.ljono[i]:
-                on = on + 1
+                vastaavat_alkiot += 1
 
-        if on > 0:
+        if vastaavat_alkiot > 0:
             return True
         else:
             return False
@@ -95,45 +95,43 @@ class IntJoukko:
         return taulu
 
     @staticmethod
-    def yhdiste(a, b):
-        x = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+    def alusta_operaatio(a,b):
+        return IntJoukko(), a.to_int_list(), b.to_int_list()
 
-        for i in range(0, len(a_taulu)):
-            x.lisaa(a_taulu[i])
+    @staticmethod
+    def yhdiste(a,b):
+        yhdiste_joukko, joukko1, joukko2 = IntJoukko.alusta_operaatio(a,b)
 
-        for i in range(0, len(b_taulu)):
-            x.lisaa(b_taulu[i])
+        for i in range(0, len(joukko1)):
+            yhdiste_joukko.lisaa(joukko1[i])
 
-        return x
+        for i in range(0, len(joukko2)):
+            yhdiste_joukko.lisaa(joukko2[i])
+
+        return yhdiste_joukko
 
     @staticmethod
     def leikkaus(a, b):
-        y = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+        leikkaus_joukko, joukko1, joukko2 = IntJoukko.alusta_operaatio(a,b)
 
-        for i in range(0, len(a_taulu)):
-            for j in range(0, len(b_taulu)):
-                if a_taulu[i] == b_taulu[j]:
-                    y.lisaa(b_taulu[j])
+        for i in range(0, len(joukko1)):
+            for j in range(0, len(joukko2)):
+                if joukko1[i] == joukko2[j]:
+                    leikkaus_joukko.lisaa(joukko2[j])
 
-        return y
+        return leikkaus_joukko
 
     @staticmethod
     def erotus(a, b):
-        z = IntJoukko()
-        a_taulu = a.to_int_list()
-        b_taulu = b.to_int_list()
+        erotus_joukko, joukko1, joukko2 = IntJoukko.alusta_operaatio(a,b)
 
-        for i in range(0, len(a_taulu)):
-            z.lisaa(a_taulu[i])
+        for i in range(0, len(joukko1)):
+            erotus_joukko.lisaa(joukko1[i])
 
-        for i in range(0, len(b_taulu)):
-            z.poista(b_taulu[i])
+        for i in range(0, len(joukko2)):
+            erotus_joukko.poista(joukko2[i])
 
-        return z
+        return erotus_joukko
 
     def __str__(self):
         if self.alkioiden_lkm == 0:
@@ -143,8 +141,6 @@ class IntJoukko:
         else:
             tuotos = "{"
             for i in range(0, self.alkioiden_lkm - 1):
-                tuotos = tuotos + str(self.ljono[i])
-                tuotos = tuotos + ", "
-            tuotos = tuotos + str(self.ljono[self.alkioiden_lkm - 1])
-            tuotos = tuotos + "}"
+                tuotos = tuotos + str(self.ljono[i]) + ", "
+            tuotos = tuotos + str(self.ljono[self.alkioiden_lkm - 1]) + "}"
             return tuotos
