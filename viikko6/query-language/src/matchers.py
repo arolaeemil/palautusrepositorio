@@ -93,12 +93,10 @@ class QueryBuilder:
         return QueryBuilder(And(self.matcher_olio,HasFewerThan(value, attr)))
 
     def oneOf(self, *args):
-        i = 0
-        while i < len(args):
-            #palautus = QueryBuilder(Or(And(self.matcher_olio, args[i])))
-            palautus = QueryBuilder(Or(And(args[i]), Not(self.matcher_olio)))
-            i = i + 1
-        return palautus
+        or_olio = Or(args[0])
+        for arg in args:
+            or_olio = Or(or_olio, arg)
+        return QueryBuilder(or_olio)
 
     def build(self):
         return self.matcher_olio
